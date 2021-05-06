@@ -38,7 +38,7 @@ os.system("cls")
 
 
 path = input("Enter Path::")
-#class_name = input("Enter Class Name:")
+class_name = input("Enter Class Name:")
 #path = r"C:\Users\user\Desktop\Neosoft\Dhanraj Task\hussain\script_demo"
 print("Gathering Files")
 files = os.listdir(path)
@@ -95,7 +95,7 @@ try:
         cv2.waitKey(0)
         #cv2.destroyAllWindows()
         y = ya
-        append_annotation(label_file,[img_name, "Person", "0; {}; {}; {}".format(ya,w,ya)])
+        append_annotation(label_file,[img_name, class_name, "0; {}; {}; {}".format(ya,w,ya)])
 
     print("All files done.\nCheck the annotations file for corrections.")    
 except KeyboardInterrupt:
