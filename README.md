@@ -9,6 +9,8 @@ This script is for the annotation of straight <b>horizontal</b> lines over image
 
 Enter  the  path  where  images  are  stored.
 
+Enter the class name for the annotations.
+
 You will then be showed images in a new window.
 
 Simply click where you want the annotation line.
