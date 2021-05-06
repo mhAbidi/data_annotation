@@ -4,6 +4,7 @@ import os
 import csv
 from tqdm import tqdm
 import time
+import pandas as pd
 # Picture path
 info="""
 Data Annotation Software:
@@ -38,32 +39,20 @@ os.system("cls")
 
 
 path = input("Enter Path::")
-class_name = input("Enter Class Name:")
-#path = r"C:\Users\user\Desktop\Neosoft\Dhanraj Task\hussain\script_demo"
-print("Gathering Files")
+#class_name = input("Enter Class Name:")
 files = os.listdir(path)
 directory = path.split("\\")[-1]
 label_file = directory+"_labelled.csv"
 ya = 0
-print("Sorting Files")
-for item in files:
-    if item[-4:] not in ['.jpg', '.bmp','.png','jpeg']:
-        files.remove(item)
 
-try:
-    with open(os.path.join(path,label_file),mode = "r") as labels:
-        csv_file = csv.reader(labels)
-        for line in csv_file:
-            try:
-                files.remove(line[0])
-            except:
-                pass
-except:
-    print("No previous annotation file found")
+check_df = True
 
-for item in files:
-    if "csv" in item:
-        files.remove(item)
+
+if os.path.exists(os.path.join(path, label_file)):
+    df = pd.read_csv(os.path.join(path, label_file))
+else:
+    check_df = False
+
 
 def on_EVENT_LBUTTONDOWN(event, x, y, flags, param):
             if event == cv2.EVENT_LBUTTONDOWN:
@@ -80,22 +69,29 @@ def append_annotation(file_name, list_of_elements):
 
         writer = csv.writer(file, delimiter=",")
         writer.writerow(list_of_elements)
-print("Files have been checked")
+
+   
+        
 try:
     if len(files) == 0:
         raise Exception('All files are done')
      
     for img in tqdm(files):
-        img_name = img
-        img = cv2.imread(os.path.join(path,img))
-        h,w,ch = img.shape
-        cv2.namedWindow("image")
-        cv2.setMouseCallback("image", on_EVENT_LBUTTONDOWN)
-        cv2.imshow("image", img)
-        cv2.waitKey(0)
-        #cv2.destroyAllWindows()
-        y = ya
-        append_annotation(label_file,[img_name, class_name, "0; {}; {}; {}".format(ya,w,ya)])
+        if img[-4:] in ['.jpg', '.bmp','.png','jpeg']:
+            if "csv" in img:
+                continue
+            if check_df:
+                if img in df.to_string():
+                    continue
+            img_name = img
+            img = cv2.imread(os.path.join(path,img))
+            h,w,ch = img.shape
+            cv2.namedWindow("image")
+            cv2.setMouseCallback("image", on_EVENT_LBUTTONDOWN)
+            cv2.imshow("image", img)
+            cv2.waitKey(0)
+            y = ya
+            append_annotation(label_file,[img_name, "Person", "0; {}; {}; {}".format(ya,w,ya)])
 
     print("All files done.\nCheck the annotations file for corrections.")    
 except KeyboardInterrupt:
