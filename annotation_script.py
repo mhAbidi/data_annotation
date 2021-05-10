@@ -32,7 +32,7 @@ Press Enter to start.
 """
 
 
-# Comment about the function
+# Capturesthe pointer location's Y coordinates
 def process_mouse_click(event, x, y, flags, param):
     if event == cv2.EVENT_LBUTTONDOWN:
         global ya
@@ -45,9 +45,8 @@ def process_mouse_click(event, x, y, flags, param):
 if __name__ == '__main__':
     ### Configs ###
 
-    path = r"C:\Users\user\Desktop\Neosoft\Dhanraj Task\hussain\script_demo"
-    # lajsgdfadvfyusd
-    output_label_file = "script_demo_labelled.csv"  # luasdiyfkusdo8fggai7g
+    path = r"C:\Users\user\Desktop\Neosoft\Dhanraj Task\hussain\script_demo" # The path where the data is stored
+    output_label_file = "script_demo_labelled.csv"  # Output file path
 
     files = os.listdir(path)
     ya = 0
